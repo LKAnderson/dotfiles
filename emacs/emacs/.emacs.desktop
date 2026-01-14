@@ -1,0 +1,67 @@
+;; -*- mode: emacs-lisp; lexical-binding:t; coding: utf-8-emacs; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Wed Jan 14 16:16:32 2026
+;; Desktop file format version 208
+;; Emacs version 30.2
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (26984 9168 747248 0) (desktop . "208") "kent@ka-pretaa.domain" nil nil ((((minibuffer . t) (fontsize . 0) (font . "-*-MesloLGM Nerd Font Mono-regular-normal-normal-*-14-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 2) (child-frame-border-width) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#c8d3f5") (background-color . "#222436") (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (undecorated) (ns-appearance) (ns-transparent-titlebar) (z-group) (no-focus-on-map) (no-accept-focus) (menu-bar-lines . 1) (tab-bar-lines . 0) (tool-bar-lines . 1) (title) (inhibit-double-buffering) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (scroll-bar-height . 15) (alpha) (alpha-background) (fullscreen) (scroll-bar-foreground . "#828bb8") (scroll-bar-background . "#1e2030") (display-type . color) (background-mode . dark) (cursor-color . "#c8d3f5") (font-parameter . "MesloLGM Nerd Font Mono-14") (environment) (border-color . "#545c7e") (last-focus-update . t) (frameset--id . "4766-DCC8-3F2A-057E") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (visibility . t) (display . "ka-pretaa.domain") (explicit-name) (tool-bar-position . top) (tabs (current-tab (name . "emacs") (explicit-name))) (height . 68) (width . 236) (left . 27) (top . 124)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 6) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 76) (min-pixel-width . 80) (min-pixel-height-ignore . 57) (min-pixel-width-ignore . 48) (min-pixel-height-safe . 19) (min-pixel-width-safe . 16)) leaf (pixel-width . 1919) (pixel-height . 1273) (total-width . 239) (total-height . 67) (normal-height . 1.0) (normal-width . 1.0) (buffer "emacs" (selected . t) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 2 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 513) (start . 1)) (prev-buffers ("*Buffer List*" 1 183) ("init.el" 1 1) ("biometrics.services.ts" 1 8391) (".config" 1 393) ("emacs" 1 513) ("*scratch*" 1 148))))])
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring nil)
+(setq regexp-search-ring '(#("tokyon-jjj" 0 10 (isearch-case-fold-search t)) #("tokyo-nig" 0 9 (isearch-case-fold-search t)) #("auto-save" 0 9 (isearch-case-fold-search t)) #("magit" 0 5 (isearch-case-fold-search t))))
+(setq register-alist nil)
+(setq file-name-history '("~/projects/platform-monorepo/apps/microservices/dashboard-api/src/routes/biometrics/" "~/.config/emacs/"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-append-buffer-args 208
+  nil
+  "emacs"
+  'dired-mode
+  '(company-mode evil-collection-unimpaired-mode evil-local-mode display-line-numbers-mode font-lock-mode)
+  513
+  '(122 nil)
+  t
+  '("/Users/kent/.config/emacs/")
+  '((buffer-display-time 26984 9149 293145 0) (overwrite-mode))
+  '((mark-ring (350))))
+
+(desktop-append-buffer-args 208
+  "/Users/kent/.config/emacs/init.el"
+  "init.el"
+  'emacs-lisp-mode
+  '(font-lock-mode eldoc-mode display-line-numbers-mode evil-local-mode evil-collection-unimpaired-mode company-mode rainbow-delimiters-mode)
+  1
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 26984 9142 24882 0) (buffer-file-coding-system . prefer-utf-8-unix) (overwrite-mode))
+  '((mark-ring nil)))
+
+(desktop-append-buffer-args 208
+  nil
+  ".config"
+  'dired-mode
+  '(company-mode evil-collection-unimpaired-mode evil-local-mode display-line-numbers-mode font-lock-mode)
+  393
+  '(393 nil)
+  t
+  '("/Users/kent/.config/")
+  '((buffer-display-time 26984 9137 686423 727000) (overwrite-mode))
+  '((mark-ring (393))))
+
+(desktop-append-buffer-args 208
+  "/Users/kent/projects/platform-monorepo/apps/microservices/dashboard-api/src/routes/biometrics/biometrics.services.ts"
+  "biometrics.services.ts"
+  'typescript-ts-mode
+  '(company-mode git-gutter-mode evil-collection-unimpaired-mode display-line-numbers-mode font-lock-mode evil-local-mode rainbow-delimiters-mode)
+  8391
+  '(1034 nil)
+  nil
+  nil
+  '((buffer-display-time 26984 8998 84034 929000) (buffer-file-coding-system . undecided-unix) (overwrite-mode))
+  '((mark-ring (1 8675))))
+

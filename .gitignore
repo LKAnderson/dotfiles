@@ -1,0 +1,10 @@
+.DS_Store
+*.elc
+*~
+\#*\#
+.#*
+auto-save-list/
+elpa/
+eln-cache/
+fish_variables
+history.txt
