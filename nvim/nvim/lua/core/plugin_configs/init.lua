@@ -1,7 +1,0 @@
-require("core.plugin_configs.lsp")
-require("core.plugin_configs.lualine")
-require("core.plugin_configs.treesitter")
-require("core.plugin_configs.nvim-tree")
-require("core.plugin_configs.telescope")
-require("core.plugin_configs.gitsigns")
-require("core.plugin_configs.none-ls")
