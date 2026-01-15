@@ -1,4 +1,9 @@
 --
+-- LEADER KEY (must be set before lazy.nvim)
+--
+vim.g.mapleader = "\\"
+
+--
 -- PLUGINS
 --
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -67,11 +72,30 @@ vim.lsp.config.clangd = {
 
 vim.lsp.enable({ "ts_ls", "pyright", "clangd" })
 
+-- nvim-cmp (completion)
+local cmp = require("cmp")
+cmp.setup({
+  sources = {
+    { name = "nvim_lsp" },
+  },
+  snippet = {
+    expand = function(args)
+      require("luasnip").lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+    ["<C-e>"] = cmp.mapping.abort(),
+    ["<C-n>"] = cmp.mapping.select_next_item(),
+    ["<C-p>"] = cmp.mapping.select_prev_item(),
+  }),
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
   desc = "LSP actions",
   callback = function(event)
     local opts = { buffer = event.buf }
-    vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", opts)
     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
     vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
@@ -81,6 +105,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
     vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, opts)
     vim.keymap.set("n", "<F3>", vim.lsp.buf.format, opts)
+    vim.keymap.set("n", "<leader>qf", vim.lsp.buf.code_action, opts)
+    vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
   end
 })
 
@@ -183,6 +209,7 @@ vim.keymap.set("n", "<leader>def", "<cmd>Telescope lsp_definitions<cr>")
 vim.keymap.set("n", "<leader>imp", "<cmd>Telescope lsp_implementations<cr>")
 vim.keymap.set("n", "<leader>sym", "<cmd>Telescope lsp_document_symbols<cr>")
 vim.keymap.set("n", "<leader>wsym", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>")
+vim.keymap.set("n", "<leader>r", "<cmd>Telescope lsp_references<cr>")
 
 -- Gitsigns
 require("gitsigns").setup()
