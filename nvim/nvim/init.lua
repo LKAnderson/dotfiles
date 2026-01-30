@@ -24,7 +24,6 @@ require("lazy").setup({
   {"williamboman/mason-lspconfig.nvim"},
   {"hrsh7th/cmp-nvim-lsp"},
   {"hrsh7th/nvim-cmp"},
-  {"L3MON4D3/LuaSnip"},
   {"folke/tokyonight.nvim", lazy = false, priority = 1000, opts = {}},
   {"tpope/vim-fugitive"},
   {"lewis6991/gitsigns.nvim"},
@@ -38,8 +37,14 @@ require("lazy").setup({
   {"coddingtonbear/neomake-platformio"},
   {"rest-nvim/rest.nvim"},
   {"nvim-tree/nvim-tree.lua", lazy = false, dependencies = { "nvim-web-devicons" }},
-  {"nvim-zh/colorful-winsep.nvim"},
   {"HiPhish/rainbow-delimiters.nvim"},
+  {
+    "kndndrj/nvim-dbee",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    build = function()
+      require("dbee").install()
+    end,
+  },
 })
 
 --
@@ -196,6 +201,15 @@ require("nvim-tree").setup({
     indent_markers = { enable = true },
   },
   update_focused_file = { enable = true, update_cwd = false },
+  on_attach = function(bufnr)
+    local api = require("nvim-tree.api")
+    api.config.mappings.default_on_attach(bufnr)
+    vim.keymap.set("n", "t", api.tree.close, { buffer = bufnr, desc = "Close tree" })
+    vim.keymap.set("n", "<CR>", function()
+      api.node.open.edit()
+      api.tree.close()
+    end, { buffer = bufnr, desc = "Open file and close tree" })
+  end,
 })
 
 -- Telescope
@@ -215,8 +229,33 @@ vim.keymap.set("n", "<leader>r", "<cmd>Telescope lsp_references<cr>")
 require("gitsigns").setup()
 vim.keymap.set("n", "<leader>bl", "<cmd>Gitsigns toggle_current_line_blame<cr>", { desc = "Toggle blame" })
 
--- Colorful winsep
-require("colorful-winsep").setup()
+-- DBee
+require("dbee").setup({
+  drawer = {
+    window_options = {},  -- nvim_open_win() options
+    disable_help = false,
+  },
+  editor = {
+    window_options = {},
+    directory = vim.fn.stdpath("data") .. "/dbee/scratchpad",
+  },
+  result = {
+    window_options = {},
+    page_size = 1000,
+    focus_result = true,
+    progress = {
+      spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+      text_prefix = "Executing...",
+    },
+  },
+  call_log = {
+    window_options = {},
+  },
+})
+vim.keymap.set("n", "<leader>db", function()
+  vim.cmd("tabnew")
+  require("dbee").toggle()
+end, { desc = "Toggle DBee" })
 
 -- DAP
 require("dapui").setup()
