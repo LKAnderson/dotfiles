@@ -207,7 +207,6 @@ require("nvim-tree").setup({
     vim.keymap.set("n", "t", api.tree.close, { buffer = bufnr, desc = "Close tree" })
     vim.keymap.set("n", "<CR>", function()
       api.node.open.edit()
-      api.tree.close()
     end, { buffer = bufnr, desc = "Open file and close tree" })
   end,
 })
