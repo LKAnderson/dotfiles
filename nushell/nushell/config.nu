@@ -1,10 +1,6 @@
 # config.nu
-#
-# Installed by:
-# version = "0.102.0"
-#
 
-$env.config.buffer_editor = $env.HOME + "/.local/bin/nvimg"
+$env.config.buffer_editor = "nvim"
 $env.config.edit_mode = "vi"
 
 $env.config.show_banner = false
@@ -53,3 +49,9 @@ def --env "nvm use" [] {
     rm $before
   " | lines | split column "=" key value | transpose -i -r -d | load-env
 }
+
+#
+# Load machine-specific extras
+#
+source extras.nu
+

@@ -1,0 +1,8 @@
+# extras.nu.starter
+#
+# Copy this file to extras.nu and uncomment the lines you want to use.
+# extras.nu is gitignored so it can be machine-specific.
+
+# Git completions from nu_scripts
+# Uncomment after cloning: git clone https://github.com/nushell/nu_scripts.git ~/.config/nushell/nu_scripts
+# source ~/.config/nushell/nu_scripts/custom-completions/git/git-completions.nu
