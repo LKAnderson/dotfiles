@@ -6,3 +6,6 @@
 # Git completions from nu_scripts
 # Uncomment after cloning: git clone https://github.com/nushell/nu_scripts.git ~/.config/nushell/nu_scripts
 # source ~/.config/nushell/nu_scripts/custom-completions/git/git-completions.nu
+
+# Themes
+# source ~/.config/nushell/nu_scripts/themes/nu-themes/tokyo-night.nu
