@@ -38,20 +38,11 @@ alias ll = ls -l
 alias appopen = /usr/bin/open
 
 #
-# Load env from things that set env (eg, nvm)
+# Load custom functions
 #
-def --env "nvm use" [] {
-  fish -c "
-    set -x before (mktemp)
-    env | sort > $before
-    nvm use
-    env | sort | comm -13 $before -
-    rm $before
-  " | lines | split column "=" key value | transpose -i -r -d | load-env
-}
+source functions.nu
 
 #
 # Load machine-specific extras
 #
 source extras.nu
-
