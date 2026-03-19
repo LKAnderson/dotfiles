@@ -30,12 +30,18 @@ def claude [...args: string] {
 # Alias that helps fun nvm use
 #
 def --env "nvm use" [] {
-  fish -c "
-    set -x before (mktemp)
-    env | sort > $before
+  bash -c '
+    before=$(mktemp)
+    env | sort > "$before"
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
     nvm use
-    env | sort | comm -13 $before -
-    rm $before
-  " | lines | split column "=" key value | transpose -i -r -d | load-env
+    env | sort | comm -13 "$before" -
+    rm "$before"
+  ' | lines | parse "{key}={value}" | if ($in | is-not-empty) {
+    let changes = $in
+    $changes | transpose -i -r -d | load-env
+    print ($changes | select key value | rename variable value)
+  }
 }
 
