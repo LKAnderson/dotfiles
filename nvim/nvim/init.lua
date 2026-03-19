@@ -38,6 +38,12 @@ require("lazy").setup({
   {"rest-nvim/rest.nvim"},
   {"nvim-tree/nvim-tree.lua", lazy = false, dependencies = { "nvim-web-devicons" }},
   {"HiPhish/rainbow-delimiters.nvim"},
+  {"sindrets/diffview.nvim"},
+  {
+    "kylechui/nvim-surround",
+    version = "^4.0.0",
+    event = "VeryLazy"
+  },
   {
     "kndndrj/nvim-dbee",
     dependencies = { "MunifTanjim/nui.nvim" },
