@@ -27,7 +27,9 @@ $env.PATH = (
 )
 
 $env.HOMEBREW_NO_HINTS = 1
-$env.JAVA_HOME = (/usr/libexec/java_home -v17)
+if ("/usr/libexec/java_home" | path exists) {
+  try { $env.JAVA_HOME = (^/usr/libexec/java_home -v17 err> /dev/null) }
+}
 
 $env.PATH = $env.PATH | uniq
 

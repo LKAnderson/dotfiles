@@ -45,3 +45,7 @@ def --env "nvm use" [] {
   }
 }
 
+def nvimg [...args: string] {
+  ^open -a neovide ...$args
+}
+

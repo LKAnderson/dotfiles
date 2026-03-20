@@ -20,6 +20,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+  {"nvim-tree/nvim-web-devicons"},
   {"williamboman/mason.nvim"},
   {"williamboman/mason-lspconfig.nvim"},
   {"hrsh7th/cmp-nvim-lsp"},
@@ -30,20 +31,15 @@ require("lazy").setup({
   {"mfussenegger/nvim-dap"},
   {"rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" }},
   {"nvim-lualine/lualine.nvim"},
-  {"nvim-treesitter/nvim-treesitter"},
+  {"nvim-treesitter/nvim-treesitter", lazy = false},
   {"nvim-treesitter/nvim-treesitter-textobjects"},
   {"nvim-telescope/telescope.nvim"},
   {"normen/vim-pio"},
   {"coddingtonbear/neomake-platformio"},
-  {"rest-nvim/rest.nvim"},
-  {"nvim-tree/nvim-tree.lua", lazy = false, dependencies = { "nvim-web-devicons" }},
+  {"nvim-tree/nvim-tree.lua", lazy = false, dependencies = { "nvim-tree/nvim-web-devicons" }},
   {"HiPhish/rainbow-delimiters.nvim"},
   {"sindrets/diffview.nvim"},
-  {
-    "kylechui/nvim-surround",
-    version = "^4.0.0",
-    event = "VeryLazy"
-  },
+  { "kylechui/nvim-surround", version = "^4.0.0", event = "VeryLazy" },
   {
     "kndndrj/nvim-dbee",
     dependencies = { "MunifTanjim/nui.nvim" },
@@ -153,42 +149,51 @@ require("lualine").setup({
   },
 })
 
--- Treesitter
-require("nvim-treesitter.configs").setup({
-  ensure_installed = {
-    "c", "lua", "vim", "vimdoc", "markdown",
-    "cpp", "python", "fish", "json", "yaml",
-    "html", "css", "javascript", "typescript", "tsx",
-    "swift", "kotlin", "http",
-  },
-  highlight = { enable = true },
-  indent = { enable = true },
-  autotag = { enable = true },
-  textobjects = {
-    select = {
-      enable = true,
-      keymaps = {
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = { ["<leader>a"] = "@parameter.inner" },
-      swap_previous = { ["<leader>A"] = "@parameter.inner" },
-    },
-    move = {
-      enable = true,
-      set_jumps = true,
-      goto_next_start = { ["]m"] = "@function.outer", ["]]"] = "@class.outer" },
-      goto_next_end = { ["]M"] = "@function.outer", ["]["] = "@class.outer" },
-      goto_previous_start = { ["[m"] = "@function.outer", ["[["] = "@class.outer" },
-      goto_previous_end = { ["[M"] = "@function.outer", ["[]"] = "@class.outer" },
-    },
-  },
+-- Treesitter: highlighting and indent via FileType autocmd
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function()
+    pcall(vim.treesitter.start)
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
 })
+
+-- Install parsers on startup (async, no-op if already installed)
+vim.api.nvim_create_autocmd("User", {
+  pattern = "LazyDone",
+  once = true,
+  callback = function()
+    require("nvim-treesitter").install({
+      "c", "lua", "vim", "vimdoc", "markdown",
+      "cpp", "python", "fish", "json", "yaml",
+      "html", "css", "javascript", "typescript", "tsx",
+      "swift", "kotlin", "http",
+    })
+  end,
+})
+
+-- Treesitter textobjects
+local ts_select = function(q) require("nvim-treesitter-textobjects.select").select_textobject(q, "textobjects") end
+local ts_swap_next = function(q) require("nvim-treesitter-textobjects.swap").swap_next(q) end
+local ts_swap_prev = function(q) require("nvim-treesitter-textobjects.swap").swap_previous(q) end
+local ts_next_start = function(q) require("nvim-treesitter-textobjects.move").goto_next_start(q, "textobjects") end
+local ts_next_end = function(q) require("nvim-treesitter-textobjects.move").goto_next_end(q, "textobjects") end
+local ts_prev_start = function(q) require("nvim-treesitter-textobjects.move").goto_previous_start(q, "textobjects") end
+local ts_prev_end = function(q) require("nvim-treesitter-textobjects.move").goto_previous_end(q, "textobjects") end
+
+vim.keymap.set({ "x", "o" }, "af", function() ts_select("@function.outer") end)
+vim.keymap.set({ "x", "o" }, "if", function() ts_select("@function.inner") end)
+vim.keymap.set({ "x", "o" }, "ac", function() ts_select("@class.outer") end)
+vim.keymap.set({ "x", "o" }, "ic", function() ts_select("@class.inner") end)
+vim.keymap.set("n", "<leader>a", function() ts_swap_next("@parameter.inner") end)
+vim.keymap.set("n", "<leader>A", function() ts_swap_prev("@parameter.inner") end)
+vim.keymap.set({ "n", "x", "o" }, "]m", function() ts_next_start("@function.outer") end)
+vim.keymap.set({ "n", "x", "o" }, "]]", function() ts_next_start("@class.outer") end)
+vim.keymap.set({ "n", "x", "o" }, "]M", function() ts_next_end("@function.outer") end)
+vim.keymap.set({ "n", "x", "o" }, "][", function() ts_next_end("@class.outer") end)
+vim.keymap.set({ "n", "x", "o" }, "[m", function() ts_prev_start("@function.outer") end)
+vim.keymap.set({ "n", "x", "o" }, "[[", function() ts_prev_start("@class.outer") end)
+vim.keymap.set({ "n", "x", "o" }, "[M", function() ts_prev_end("@function.outer") end)
+vim.keymap.set({ "n", "x", "o" }, "[]", function() ts_prev_end("@class.outer") end)
 
 -- nvim-tree
 require("nvim-tree").setup({
