@@ -119,6 +119,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 vim.diagnostic.config({
   float = { border = "rounded" },
+  virtual_text = true,
+  virtual_lines = { current_line = true },
 })
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
