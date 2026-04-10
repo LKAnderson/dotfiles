@@ -29,6 +29,7 @@ link() {
 
 # ~/.config symlinks
 link "$REPO_DIR/fish/fish"         "$CONFIG_DIR/fish"
+link "$REPO_DIR/git/git"           "$CONFIG_DIR/git"
 link "$REPO_DIR/nushell/nushell"   "$CONFIG_DIR/nushell"
 link "$REPO_DIR/nvim/nvim"         "$CONFIG_DIR/nvim"
 link "$REPO_DIR/starship/starship.toml" "$CONFIG_DIR/starship.toml"
@@ -45,6 +46,13 @@ EXTRAS="$CONFIG_DIR/nushell/extras.nu"
 if [ ! -e "$EXTRAS" ]; then
     echo "Creating: $EXTRAS"
     cp "$REPO_DIR/nushell/nushell/extras.nu.starter" "$EXTRAS"
+fi
+
+# Initialize git local config from template if not already present
+GIT_LOCAL="$CONFIG_DIR/git/config.local"
+if [ ! -e "$GIT_LOCAL" ]; then
+    echo "Creating: $GIT_LOCAL (edit with your name, email, and paths)"
+    cp "$REPO_DIR/git/git/config.local.template" "$GIT_LOCAL"
 fi
 
 echo "Done."
