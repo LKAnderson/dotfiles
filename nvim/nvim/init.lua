@@ -276,6 +276,8 @@ require("dapui").setup()
 -- OPTIONS
 --
 
+vim.opt.exrc = true
+
 vim.opt.mouse = "a"
 vim.opt.backup = false
 vim.opt.updatetime = 2000
