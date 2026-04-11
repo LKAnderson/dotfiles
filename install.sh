@@ -34,6 +34,11 @@ link "$REPO_DIR/nushell/nushell"   "$CONFIG_DIR/nushell"
 link "$REPO_DIR/nvim/nvim"         "$CONFIG_DIR/nvim"
 link "$REPO_DIR/starship/starship.toml" "$CONFIG_DIR/starship.toml"
 
+# ~/.claude symlinks
+link "$REPO_DIR/claude/claude/Claude.md"    "$HOME/.claude/Claude.md"
+link "$REPO_DIR/claude/claude/settings.json" "$HOME/.claude/settings.json"
+link "$REPO_DIR/claude/claude/skills"       "$HOME/.claude/skills"
+
 # macOS: nushell also looks in ~/Library/Application Support/nushell
 case "$(uname)" in
     Darwin)
