@@ -17,7 +17,6 @@ $env.PATH = (
         ~/.local/bin
         ~/.rvm/bin
         /opt/homebrew/bin
-        ~/.config/emacs/bin
         ([$env.ANDROID_HOME "/platform-tools"] | str join)
         ([$env.ANDROID_HOME "/build-tools"] | str join)
         ([$env.ANDROID_HOME "/tools/bin"] | str join)
