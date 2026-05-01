@@ -8,21 +8,14 @@ $env.config.rm.always_trash = true
 
 $env.config.footer_mode = "auto"
 
-$env.ANDROID_HOME = $env.HOME + "/Library/Android/sdk"
-
 # Setup PATH
 $env.PATH = (
-    (open /etc/paths | lines)
-    | append [
+    [
         ~/.local/bin
-        ~/.rvm/bin
         /opt/homebrew/bin
-        ([$env.ANDROID_HOME "/platform-tools"] | str join)
-        ([$env.ANDROID_HOME "/build-tools"] | str join)
-        ([$env.ANDROID_HOME "/tools/bin"] | str join)
-        ([$env.ANDROID_HOME "/emulator"] | str join)
         /Applications/Postgres.app/Contents/Versions/latest/bin
     ]
+    | append (open /etc/paths | lines)
 )
 
 $env.HOMEBREW_NO_HINTS = 1
