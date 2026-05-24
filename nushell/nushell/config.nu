@@ -18,7 +18,7 @@ $env.PATH = (
     | append (open /etc/paths | lines)
 )
 
-$env.HOMEBREW_NO_ENV_HINTS=1
+$env.HOMEBREW_NO_ENV_HINTS = 1
 $env.HOMEBREW_NO_HINTS = 1
 
 if ("/usr/libexec/java_home" | path exists) {
