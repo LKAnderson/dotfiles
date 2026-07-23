@@ -39,6 +39,10 @@ link "$REPO_DIR/claude/claude/Claude.md"    "$HOME/.claude/Claude.md"
 link "$REPO_DIR/claude/claude/settings.json" "$HOME/.claude/settings.json"
 link "$REPO_DIR/claude/claude/skills"       "$HOME/.claude/skills"
 
+# ~/.config/zed symlinks (selective: prompts/ holds a local runtime db, not config)
+link "$REPO_DIR/zed/zed/settings.json" "$CONFIG_DIR/zed/settings.json"
+link "$REPO_DIR/zed/zed/themes"        "$CONFIG_DIR/zed/themes"
+
 # macOS: nushell also looks in ~/Library/Application Support/nushell
 case "$(uname)" in
     Darwin)

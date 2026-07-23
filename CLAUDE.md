@@ -38,3 +38,7 @@ LSP is configured using the Neovim 0.11+ native API (`vim.lsp.config` / `vim.lsp
 ## Nushell
 
 `nushell/nushell/config.nu` is the entry point. It sources `functions.nu` (shared functions) and `extras.nu` (machine-specific, gitignored). On macOS, `~/Library/Application Support/nushell` is symlinked to `~/.config/nushell` by `install.sh`.
+
+## Zed
+
+Only `zed/zed/settings.json` and `zed/zed/themes/` are symlinked into `~/.config/zed` — not the whole directory. `~/.config/zed/prompts/` holds a local runtime database (prompt library), not config, so it's left alone.
