@@ -9,5 +9,6 @@
   "autoUpdatesChannel": "stable",
   "minimumVersion": "2.1.15",
   "theme": "dark",
-  "voiceEnabled": false
+  "voiceEnabled": false,
+  "awaySummaryEnabled": false
 }

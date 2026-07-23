@@ -52,3 +52,6 @@
 
 [merge]
 	conflictStyle = zdiff3
+[user]
+	name = Kent Anderson
+	email = kent@huml.health
