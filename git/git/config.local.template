@@ -1,6 +1,6 @@
 [user]
-	name = Your Name
-	email = you@example.com
+	name = Kent Anderson
+	email = kent@lkatechnology.com
 
-[init]
-	templateDir = /path/to/.git-template
+# [init]
+#	templateDir = /path/to/.git-template
