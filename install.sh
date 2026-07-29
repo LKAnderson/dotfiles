@@ -17,7 +17,7 @@ link() {
 
     if [ -L "$dst" ]; then
         echo "Relinking: $dst -> $src"
-        ln -sf "$src" "$dst"
+        ln -sfn "$src" "$dst"
     elif [ -e "$dst" ]; then
         echo "Skipping: $dst already exists and is not a symlink"
         return
