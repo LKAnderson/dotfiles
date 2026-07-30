@@ -7,6 +7,7 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "use_system_window_tabs": false,
   "languages": {
     "TypeScript": {
       "inlay_hints": {
@@ -104,5 +105,14 @@
     "mode": "system",
     "light": "Tokyo Night Light",
     "dark": "My Tokyo Night Storm",
+  },
+  "lsp": {
+    "prisma-language-server": {
+      "settings": {
+        "prisma": {
+          "pinToPrisma6": true
+        }
+      }
+    }
   },
 }
