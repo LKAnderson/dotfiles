@@ -52,3 +52,6 @@
 
 [merge]
 	conflictStyle = zdiff3
+
+[include]
+  path = config.local

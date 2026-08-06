@@ -7,6 +7,10 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "markdown_preview": {
+    "max_width": 800.0,
+    "limit_content_width": true
+  },
   "use_system_window_tabs": false,
   "languages": {
     "TypeScript": {
@@ -92,7 +96,6 @@
     "light": "Zed (Default)",
     "dark": "Colored Zed Icons Theme Dark"
   },
-  "redact_private_values": true,
   "on_last_window_closed": "quit_app",
   "telemetry": {
     "diagnostics": true,
