@@ -10,6 +10,37 @@
   to do has good reasons not to do it, I want to know about it so I can make a more informed
   decision about proceeding or not.
 
+### Task summaries
+
+- End-of-task summaries: terse bullet points only. No multi-section writeups,
+  comparison tables, restated rationale, or code blocks recapping the diff.
+- Report what changed, plus any blocker or caveat — one line each.
+- Skip the "why this is better" framing. The diff and the conversation carry it.
+- I'll ask if I want detail.
+
+### Reasoning belongs in chat, not in artifacts
+
+Code, docs, and other artifacts record **the state**, not how it was arrived at.
+
+- Comments: 1 line maximum, and only when genuinely necessary. If the code says
+  it, don't restate it.
+- No "why not the alternative" expansions, no "note what this deliberately does
+  not do", no multi-paragraph justification of a decision.
+- No narration of what was considered and rejected along the way.
+- Test each sentence: if deleting it wouldn't change what someone builds, cut it.
+- Keep a rejected alternative only when it stops someone re-proposing a known-bad
+  idea, and state it as one line of forward guidance.
+
+### Docs state requirements, not history
+
+When writing or revising docs, capture the current state of the requirements, 
+not the history of the thinking.
+
+- Strip "an earlier version proposed…", "that framing was mistaken", "this is
+  weaker than what it replaces", and comparisons to prior drafts.
+- Decision records state the decision and the reason; they don't recount which
+  draft said what.
+
 ## Coding style
 
 ### Code Formatting

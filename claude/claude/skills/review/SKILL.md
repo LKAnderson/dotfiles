@@ -1,4 +1,20 @@
-# PR Review Skill
+---
+name: review
+description: >-
+  Deep adversarial review of a branch or PR in any project: checks out the
+  branch, runs the affected unit tests, reports build and test status, and
+  returns a Summary / Strengths / Issues / Suggestions writeup. Use when asked
+  for a thorough or adversarial review, or when test and build results are
+  wanted alongside the review. NOT the platform-monorepo pre-review first pass —
+  for that, use the pr-first-pass skill instead.
+---
+
+# Deep Review Skill
+
+Adversarial, test-running review. For a lightweight **pre-review first pass** on
+platform-monorepo changes — which follows the team's `docs/pr-first-pass.md`
+prompt, caps findings, and never posts without a go-ahead — use the
+`pr-first-pass` skill instead.
 
 1. Identify what is being reviewed based on optional prompt content provided with the skill
    invocation. If it is not clear what is to be reviewed, check if a github PR exists that
