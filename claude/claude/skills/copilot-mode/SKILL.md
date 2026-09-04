@@ -1,4 +1,4 @@
-# Resource-Mode Skill
+# Copilot-Mode Skill
 
 ## Overview
 

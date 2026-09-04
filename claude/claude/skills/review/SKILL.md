@@ -16,6 +16,8 @@ platform-monorepo changes — which follows the team's `docs/pr-first-pass.md`
 prompt, caps findings, and never posts without a go-ahead — use the
 `pr-first-pass` skill instead.
 
+All output from this skill should target a 12th grade literacy level.
+
 1. Identify what is being reviewed based on optional prompt content provided with the skill
    invocation. If it is not clear what is to be reviewed, check if a github PR exists that
    matches the prompt. If it is a github PR, fetch the PR details using
@@ -47,11 +49,11 @@ prompt, caps findings, and never posts without a go-ahead — use the
 
    Then bucket the PR by where its substantive weight sits:
 
-   | Bucket | Signature | What to do |
-   | --- | --- | --- |
-   | **Mechanical** | ≥80% of files moved/deleted/generated, little substantive change | Verify, don't read (checks below) |
-   | **Leaf** | ≲400 substantive lines, single purpose | Full adversarial read |
-   | **Structural** | New abstraction or data flow, or ≳400 substantive added lines | Deep read; say so if this needed a design conversation instead of async review |
+   | Bucket         | Signature                                                        | What to do                                                                     |
+   | -------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+   | **Mechanical** | ≥80% of files moved/deleted/generated, little substantive change | Verify, don't read (checks below)                                              |
+   | **Leaf**       | ≲400 substantive lines, single purpose                           | Full adversarial read                                                          |
+   | **Structural** | New abstraction or data flow, or ≳400 substantive added lines    | Deep read; say so if this needed a design conversation instead of async review |
 
    For **Mechanical** PRs, run these checks instead of reading the diff:
    - Each `R100`: confirm content is byte-identical, not just similar
@@ -66,8 +68,8 @@ prompt, caps findings, and never posts without a go-ahead — use the
 
    **Emit this table before the review body:**
 
-   | PR | Substantive | Moved | Deleted | Generated | Bucket |
-   | --- | --- | --- | --- | --- | --- |
+   | PR  | Substantive | Moved | Deleted | Generated | Bucket |
+   | --- | ----------- | ----- | ------- | --------- | ------ |
 
    For a stack, one row per PR ordered base-first, plus a recommended review
    order (base-first, merge each before moving up). Name the file or subsystem
@@ -77,9 +79,11 @@ prompt, caps findings, and never posts without a go-ahead — use the
 
    If the top bucket is **Structural**, stop after the table and ask whether I
    want the deep review now or a design conversation with the author first.
-4. If not on the branch being reviewed, stash any uncommitted changes, then check out the branch
-   being reviewed. Run the unit tests in each application or package that has changed files.
-   Report any build errors and whether the tests pass or not.
+
+4. Only run tests if my invocation of the skill specifically requests it. If I request to
+   run the test, then if not on the branch being reviewed, stash any uncommitted changes,
+   then check out the branch being reviewed. Run the unit tests in each application or
+   package that has changed files. Report any build errors and whether the tests pass or not.
 5. If a Github PR is being reviewed, and the PR is part of a set of Stacked PRs, gather context
    from the previous PRs in the stack, as needed to assist in understanding this PR.
 6. When reviewing the changes, assume an adversarial reviewer perspsective, where the approach
