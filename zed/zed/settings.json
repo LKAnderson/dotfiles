@@ -15,7 +15,7 @@
       "delay_ms": 2000
     },
     "show_stage_restore_buttons": true,
-    "diff_base": "default_branch"
+    "diff_base": "head"
   },
   "diff_view_style": "unified",
   "markdown_preview": {
