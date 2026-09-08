@@ -99,3 +99,12 @@ All output from this skill should target a 12th grade literacy level.
    with the changes.
 9. Be sure to return to the original branch and unstash any files that may have been stashed
    while doing this review.
+10. Before reporting a finding, you must attempt to refute it. Only when a finding withstands
+    the cross-examination can it be reported. When reporting findings, the description should
+    contain two parts:
+    1. A concice comment (no more than 3 sentences) in Markdown format. Include the file name
+       and exact line number(s) where the comment should be added. Also include the PR identifier
+       if the PR is part of a multiple-PR review.
+    2. Any additional explanation that is necessary for understanding the issue. This part is
+       optional if there is no additional explanation necessary.
+11. It is ok to report no findings if there isn't anything that warrants a comment on the PR.
