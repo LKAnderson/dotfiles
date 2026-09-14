@@ -7,6 +7,11 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "disable_ai": false,
+  "edit_predictions": {
+    "allow_data_collection": "no",
+    "provider": "copilot"
+  },
   "git": {
     "file_diff": {
       "show_full_file": true
@@ -121,6 +126,21 @@
     "dark": "My Tokyo Night Storm",
   },
   "lsp": {
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always"
+          }
+        },
+        "javascript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always"
+          }
+        }
+      },
+      "enable_lsp_tasks": true
+    },
     "prisma-language-server": {
       "settings": {
         "prisma": {

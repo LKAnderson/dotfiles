@@ -13,6 +13,5 @@
   "minimumVersion": "2.1.15",
   "tui": "fullscreen",
   "theme": "dark",
-  "voiceEnabled": false,
-  "model": "sonnet"
+  "voiceEnabled": false
 }
