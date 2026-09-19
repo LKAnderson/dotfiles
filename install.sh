@@ -44,9 +44,14 @@ link "$REPO_DIR/zed/zed/settings.json" "$CONFIG_DIR/zed/settings.json"
 link "$REPO_DIR/zed/zed/themes"        "$CONFIG_DIR/zed/themes"
 
 # macOS: nushell also looks in ~/Library/Application Support/nushell
+# macOS: point iTerm2 at this repo's preferences folder
 case "$(uname)" in
     Darwin)
         link "$CONFIG_DIR/nushell" "$HOME/Library/Application Support/nushell"
+
+        echo "Pointing iTerm2 preferences at $REPO_DIR/iterm2/iterm2"
+        defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$REPO_DIR/iterm2/iterm2"
+        defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
         ;;
 esac
 
