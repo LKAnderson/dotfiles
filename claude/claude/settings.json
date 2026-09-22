@@ -13,6 +13,6 @@
   "autoUpdatesChannel": "stable",
   "minimumVersion": "2.1.15",
   "tui": "fullscreen",
-  "theme": "light",
+  "theme": "auto",
   "voiceEnabled": false
 }
