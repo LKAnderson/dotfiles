@@ -5,8 +5,10 @@ description: >-
   branch, runs the affected unit tests, reports build and test status, and
   returns a Summary / Strengths / Issues / Suggestions writeup. Use when asked
   for a thorough or adversarial review, or when test and build results are
-  wanted alongside the review. NOT the platform-monorepo pre-review first pass —
-  for that, use the pr-first-pass skill instead.
+  wanted alongside the review. Also runs triage-only (`--triage`) to classify
+  and order every PR in a stack without reviewing them. NOT the
+  platform-monorepo pre-review first pass — for that, use the pr-first-pass
+  skill instead.
 ---
 
 # Deep Review Skill
@@ -17,6 +19,35 @@ prompt, caps findings, and never posts without a go-ahead — use the
 `pr-first-pass` skill instead.
 
 All output from this skill should target a 12th grade literacy level.
+
+## Triage-only mode
+
+Runs when the invocation includes `--triage` or asks to triage, classify, or
+prioritize PRs.
+
+- Run steps 1–3 only. No checkout, no tests, no diff reading beyond step 3's
+  mechanical checks, no findings.
+- Given one PR in a stack, enumerate the whole stack from a single listing,
+  then chain `baseRefName` → `headRefName` in memory from the default branch
+  upward:
+
+  ```bash
+  gh pr list --state open --limit 200 \
+    --json number,title,headRefName,baseRefName,isDraft,reviewDecision
+  ```
+
+- Don't stop to ask about merged/closed PRs (step 2); mark them in the table.
+- Output, then stop:
+  1. The step 3 table, base-first, with extra columns `Hotspot` (file or
+     subsystem holding the substantive weight) and `Risk` (domain traps
+     touched: AuthZ, PHI, timezone, data layer, migrations — or `—`).
+  2. Mechanical-check results for each Mechanical PR (pass, or the residual
+     hunk / surviving reference that failed).
+  3. Stack-shape flags: PRs whose base isn't the previous PR, and PRs with
+     `reviewDecision` already `APPROVED` sitting above unreviewed ones.
+  4. A review plan: which PRs need a human deep read (Structural, or any
+     `Risk`), which need a normal read (Leaf), and which need only a
+     verify-and-approve (Mechanical with passing checks).
 
 1. Identify what is being reviewed based on optional prompt content provided with the skill
    invocation. If it is not clear what is to be reviewed, check if a github PR exists that
