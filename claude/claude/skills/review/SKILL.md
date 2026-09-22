@@ -1,19 +1,19 @@
 ---
 name: review
 description: >-
-  Deep adversarial review of a branch or PR in any project: checks out the
-  branch, runs the affected unit tests, reports build and test status, and
-  returns a Summary / Strengths / Issues / Suggestions writeup. Use when asked
-  for a thorough or adversarial review, or when test and build results are
-  wanted alongside the review. Also runs triage-only (`--triage`) to classify
-  and order every PR in a stack without reviewing them. NOT the
-  platform-monorepo pre-review first pass — for that, use the pr-first-pass
-  skill instead.
+  Triage-driven review of a PR or PR stack in any project: classifies each PR,
+  then reviews base-first by running the built-in /code-review at an effort
+  level set by the PR's weight, filters findings against the rest of the stack,
+  and optionally runs the affected unit tests. Use when asked for a thorough
+  review, a stack review, or test results alongside the review. Also runs
+  triage-only (`--triage`) to classify and order every PR in a stack without
+  reviewing them. NOT the platform-monorepo pre-review first pass — for that,
+  use the pr-first-pass skill instead.
 ---
 
-# Deep Review Skill
+# Review Skill
 
-Adversarial, test-running review. For a lightweight **pre-review first pass** on
+Triage, then `/code-review` per PR with stack-aware filtering. For a lightweight **pre-review first pass** on
 platform-monorepo changes — which follows the team's `docs/pr-first-pass.md`
 prompt, caps findings, and never posts without a go-ahead — use the
 `pr-first-pass` skill instead.
@@ -115,31 +115,62 @@ prioritize PRs.
    run the test, then if not on the branch being reviewed, stash any uncommitted changes,
    then check out the branch being reviewed. Run the unit tests in each application or
    package that has changed files. Report any build errors and whether the tests pass or not.
-5. If a Github PR is being reviewed, and the PR is part of a set of Stacked PRs, gather context
-   from the previous PRs in the stack, as needed to assist in understanding this PR.
-6. When reviewing the changes, assume an adversarial reviewer perspsective, where the approach
-   is influenced by a need to find non-compliance with coding guideline, security issues and
-   hard-to-see bugs.
-7. Provide a structured review with sections:
+   For a stack, do this per PR as step 5 reaches it.
+5. Review PRs one at a time, base-first (a single PR is a stack of one). For each PR:
+   - **Mechanical** with passing step 3 checks: no further review; report the checks.
+   - Otherwise invoke the built-in `/code-review` skill on the PR with an effort level:
+     `medium` for Leaf; `high` for Structural or any Leaf that touches a domain trap
+     (timezone, AuthZ, PHI, data layer, migrations); `max` for Structural that touches one.
+     Never pass `--comment` or `--fix`.
+   - In the args, add this guidance: priority is correctness and domain traps first, then
+     layering / DI / types / tests, then clarity; read callers, callees, and related files
+     the PR didn't touch, and report an untouched file the change breaks. These instructions
+     override any repo review docs (e.g. `docs/pr-first-pass.md`,
+     `docs/pr-review-patterns.md`).
+6. Filter `/code-review`'s findings. Drop any finding that:
+   - Has no concrete failure scenario (input or state → wrong result, crash, or leak)
+   - Lint, the type checker, or the compiler would catch
+   - Is pre-existing and the PR neither introduces nor makes worse
+   - Is a style preference not written down in CLAUDE.md
+   - Flags a change that is clearly intentional and part of the PR's purpose
+   - Is already in the ledger (step 8) or in GitHub comments on a lower PR in the stack
+   - Repeats an open review thread or comment on this PR, from anyone (human or bot)
+
+   Fetch this PR's threads with resolution status:
+
+   ```bash
+   gh api graphql -F owner=<owner> -F repo=<repo> -F pr=<number> -f query='
+     query($owner:String!,$repo:String!,$pr:Int!){repository(owner:$owner,name:$repo){
+       pullRequest(number:$pr){
+         reviewThreads(first:100){nodes{isResolved isOutdated path line
+           comments(first:1){nodes{author{login} body url}}}}
+         comments(first:100){nodes{author{login} body url}}}}}'
+   ```
+
+7. For each surviving finding:
+   - If it matches a resolved thread and the problem is still in the code, keep it and link
+     the thread ("resolved in <url>, but still present").
+   - Check whether a later PR in the stack fixes it
+     (`git diff origin/<head>...origin/<top-of-stack> -- <file>`). If so, keep it as a note:
+     "fixed in #N; blocking only if this PR ships without #N."
+   - If `/code-review` marked it uncertain or `PLAUSIBLE`, verify it with a separate agent in
+     fresh context: give it only the PR, file and line(s), and the failure scenario, and
+     tell it to refute it by reading the code. Keep only `CONFIRMED`.
+   - Label it `blocking:`, `question:`, or `nit:`.
+8. Append to a ledger file in the scratchpad before moving to the next PR: the PR's surviving
+   findings (one line each) and key decisions later PRs depend on (changed interfaces, new
+   abstractions, established patterns). Read the ledger, not earlier diffs, for context on
+   lower PRs.
+9. Output per PR:
    - ## Summary
-   - ## Strengths
-   - ## Issues (Critical/Minor)
-   - ## Suggestions
-8. Keep review focused on the changes identified in the PR- do not suggest unrelated refactors.
-   When interfaces (functions, data structures) are changed, check that uses of the interfaces
-   are compatible with the changes.
-9. For each change, consult the context associated with the change, including surrounding code,
-   comments, existing comments in the PR (if applicable), calling code, code called. Look for
-   any potential issues, especially logic errors and security vulnerabilities, but not limited
-   to just those classes of issues.
-10. Be sure to return to the original branch and unstash any files that may have been stashed
-    while doing this review.
-11. Before reporting a finding, you must attempt to refute it. Only when a finding withstands
-    the cross-examination can it be reported. When reporting findings, the description should
-    contain two parts:
-    1. A concice comment (no more than 3 sentences) in Markdown format. Include the file name
-       and exact line number(s) where the comment should be added. Also include the PR identifier
-       if the PR is part of a multiple-PR review.
-    2. Any additional explanation that is necessary for understanding the issue. This part is
-       optional if there is no additional explanation necessary.
-12. It is ok to report no findings if there isn't anything that warrants a comment on the PR.
+   - ## Coverage — the effort level used, files skipped (and why), and anything not
+     verified (e.g. runtime behavior, callers outside the repo, tests not run). Required even
+     when there are no findings.
+   - ## Findings — grouped as `blocking:`, `question:`, `nit:`, then notes for issues fixed
+     later in the stack. Each finding: the prefix and a comment of no more than 3 sentences,
+     with the file name, exact line number(s), and PR identifier; the failure scenario in one
+     line; further explanation only if needed.
+   For a stack, end with a roll-up: open `blocking:` count per PR and which PRs are ready to
+   approve. It is ok to report no findings.
+10. Post to GitHub only when I ask, and only the filtered findings.
+11. Return to the original branch and unstash any files that were stashed during this review.
